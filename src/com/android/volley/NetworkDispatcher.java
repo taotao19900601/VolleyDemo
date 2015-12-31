@@ -34,7 +34,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class NetworkDispatcher extends Thread {
     /** The queue of requests to service. */
-    private final BlockingQueue<Request<?>> mQueue;
+    private final BlockingQueue<Request<?>> mQueue;  // 是一个阻塞对列
     /** The network interface for processing requests. */
     private final Network mNetwork;
     /** The cache to write to. */
@@ -86,7 +86,7 @@ public class NetworkDispatcher extends Thread {
             long startTimeMs = SystemClock.elapsedRealtime();
             Request<?> request;
             try {
-                // Take a request from the queue.
+                // Take a request from the queue. 从queue中取出request
                 request = mQueue.take();
             } catch (InterruptedException e) {
                 // We may have been interrupted because it was time to quit.
@@ -108,7 +108,7 @@ public class NetworkDispatcher extends Thread {
 
                 addTrafficStatsTag(request);
 
-                // Perform the network request.
+                // Perform the network request. 执行网络请求
                 NetworkResponse networkResponse = mNetwork.performRequest(request);
                 request.addMarker("network-http-complete");
 
@@ -126,7 +126,7 @@ public class NetworkDispatcher extends Thread {
                 // Write to cache if applicable.
                 // TODO: Only update cache metadata instead of entire record for 304s.
                 if (request.shouldCache() && response.cacheEntry != null) {
-                    mCache.put(request.getCacheKey(), response.cacheEntry);
+                    mCache.put(request.getCacheKey(), response.cacheEntry);// 请求的数据添加到缓存中
                     request.addMarker("network-cache-written");
                 }
 

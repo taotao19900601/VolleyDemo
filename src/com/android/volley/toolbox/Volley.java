@@ -65,7 +65,7 @@ public class Volley {
                 stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));
             }
         }
-
+        
         Network network = new BasicNetwork(stack);
 
         RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network);

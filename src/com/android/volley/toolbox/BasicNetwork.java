@@ -52,6 +52,7 @@ import java.util.TreeMap;
 
 /**
  * A network performing Volley requests over an {@link HttpStack}.
+ * basicnetwork 是network 网络接口的具体实现类
  */
 public class BasicNetwork implements Network {
     protected static final boolean DEBUG = VolleyLog.DEBUG;
@@ -81,7 +82,9 @@ public class BasicNetwork implements Network {
         mHttpStack = httpStack;
         mPool = pool;
     }
-
+    	/**
+    	 * 执行请求的具体实现方法   ， 返回NetworkRespose对象
+    	 */
     @Override
     public NetworkResponse performRequest(Request<?> request) throws VolleyError {
         long requestStart = SystemClock.elapsedRealtime();

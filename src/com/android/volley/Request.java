@@ -34,6 +34,7 @@ import java.util.Map;
  * Base class for all network requests.
  *
  * @param <T> The type of parsed response this request expects.
+ * 该类是一个抽象类  是 各种类型request的基类 
  */
 public abstract class Request<T> implements Comparable<Request<T>> {
 
@@ -44,11 +45,14 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     /**
      * Supported request methods.
+     * 
+     * 支持的请求方式
      */
+    
     public interface Method {
         int DEPRECATED_GET_OR_POST = -1;
-        int GET = 0;
-        int POST = 1;
+        int GET = 0;// get请求
+        int POST = 1;//post请求
         int PUT = 2;
         int DELETE = 3;
         int HEAD = 4;
@@ -57,46 +61,48 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         int PATCH = 7;
     }
 
-    /** An event log tracing the lifetime of this request; for debugging. */
+    /** An event log tracing the lifetime of this request; for debugging.  记录请求生命周期的日志*/
     private final MarkerLog mEventLog = MarkerLog.ENABLED ? new MarkerLog() : null;
 
     /**
      * Request method of this request.  Currently supports GET, POST, PUT, DELETE, HEAD, OPTIONS,
      * TRACE, and PATCH.
+     * 存储记录 请求方式的变量
      */
     private final int mMethod;
 
-    /** URL of this request. */
+    /** URL of this request.  请求的url*/
     private final String mUrl;
 
     /** Default tag for {@link TrafficStats}. */
     private final int mDefaultTrafficStatsTag;
 
-    /** Listener interface for errors. */
+    /** Listener interface for errors.  错误的监听接口*/
     private final Response.ErrorListener mErrorListener;
 
-    /** Sequence number of this request, used to enforce FIFO ordering. */
+    /** Sequence number of this request, used to enforce FIFO ordering. 请求的序号  ， 按照先进先出的顺序*/
     private Integer mSequence;
 
-    /** The request queue this request is associated with. */
+    /** The request queue this request is associated with. 请求队列 */
     private RequestQueue mRequestQueue;
 
-    /** Whether or not responses to this request should be cached. */
+    /** Whether or not responses to this request should be cached.  是否缓存   默认是缓存上的。*/
     private boolean mShouldCache = true;
 
     /** Whether or not this request has been canceled. */
     private boolean mCanceled = false;
 
-    /** Whether or not a response has been delivered for this request yet. */
+    /** Whether or not a response has been delivered for this request yet.  是否已经提交了这个请求响应  默认为false*/
     private boolean mResponseDelivered = false;
 
-    /** The retry policy for this request. */
+    /** The retry policy for this request. 请求的重试机制 对象 */
     private RetryPolicy mRetryPolicy;
 
     /**
      * When a request can be retrieved from cache but must be refreshed from
      * the network, the cache entry will be stored here so that in the event of
      * a "Not Modified" response, we can be sure it hasn't been evicted from cache.
+     * 缓存实体类
      */
     private Cache.Entry mCacheEntry = null;
 

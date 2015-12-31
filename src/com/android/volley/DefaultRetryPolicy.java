@@ -18,24 +18,25 @@ package com.android.volley;
 
 /**
  * Default retry policy for requests.
+ * 是RetryPolicy的具体实现类
  */
 public class DefaultRetryPolicy implements RetryPolicy {
-    /** The current timeout in milliseconds. */
+    /** The current timeout in milliseconds.  当前请求超时的毫秒值*/
     private int mCurrentTimeoutMs;
 
-    /** The current retry count. */
+    /** The current retry count.  当前的重试次数*/
     private int mCurrentRetryCount;
 
-    /** The maximum number of attempts. */
+    /** The maximum number of attempts. 最大的重试次数*/
     private final int mMaxNumRetries;
 
     /** The backoff multiplier for the policy. */
     private final float mBackoffMultiplier;
 
-    /** The default socket timeout in milliseconds */
+    /** The default socket timeout in milliseconds  默认的socket通信超时时间为2500*/
     public static final int DEFAULT_TIMEOUT_MS = 2500;
 
-    /** The default number of retries */
+    /** The default number of retries  默认最大的重试次数*/
     public static final int DEFAULT_MAX_RETRIES = 1;
 
     /** The default backoff multiplier */

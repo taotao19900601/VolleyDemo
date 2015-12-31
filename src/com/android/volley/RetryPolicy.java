@@ -18,16 +18,19 @@ package com.android.volley;
 
 /**
  * Retry policy for a request.
+ * 请求的重试机制 接口
  */
 public interface RetryPolicy {
 
     /**
      * Returns the current timeout (used for logging).
+     * 返回当前请求的超时时间
      */
     public int getCurrentTimeout();
 
     /**
      * Returns the current retry count (used for logging).
+     * 返回当前重试的次数
      */
     public int getCurrentRetryCount();
 
