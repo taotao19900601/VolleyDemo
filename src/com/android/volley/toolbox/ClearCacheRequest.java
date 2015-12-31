@@ -26,6 +26,7 @@ import android.os.Looper;
 
 /**
  * A synthetic request used for clearing the cache.
+ * 清除请求缓存
  */
 public class ClearCacheRequest extends Request<Object> {
     private final Cache mCache;

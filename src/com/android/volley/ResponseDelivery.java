@@ -15,7 +15,11 @@
  */
 
 package com.android.volley;
-
+/**
+ * 传输相应信息
+ * @author admin
+ *
+ */
 public interface ResponseDelivery {
     /**
      * Parses a response from the network or cache and delivers it.

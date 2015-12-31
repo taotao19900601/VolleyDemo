@@ -227,6 +227,7 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Removes the specified key from the cache if it exists.
+     * 以除掉制定的缓存
      */
     @Override
     public synchronized void remove(String key) {
@@ -242,6 +243,7 @@ public class DiskBasedCache implements Cache {
      * Creates a pseudo-unique filename for the specified cache key.
      * @param key The key to generate a file name for.
      * @return A pseudo-unique filename.
+     * 根据key 来生成制定的文件名      url的hashcode值
      */
     private String getFilenameForKey(String key) {
         int firstHalfLength = key.length() / 2;
@@ -258,10 +260,11 @@ public class DiskBasedCache implements Cache {
     }
 
     /**
-     * Prunes the cache to fit the amount of bytes specified.
+     * Prunes the cache to fit the amount of bytes specified. 删除制定的缓存空间
      * @param neededSpace The amount of bytes we are trying to fit into the cache.
      */
     private void pruneIfNeeded(int neededSpace) {
+    	// 如果小于 最大的空间 就return
         if ((mTotalSize + neededSpace) < mMaxCacheSizeInBytes) {
             return;
         }
