@@ -28,6 +28,7 @@ import java.util.concurrent.BlockingQueue;
  * {@link ResponseDelivery}.  Cache misses and responses that require
  * refresh are enqueued on the specified network queue for processing
  * by a {@link NetworkDispatcher}.
+ * 缓存线程调度类
  */
 public class CacheDispatcher extends Thread {
 
@@ -82,11 +83,11 @@ public class CacheDispatcher extends Thread {
 
         // Make a blocking call to initialize the cache.
         mCache.initialize();
-
+        
         while (true) {
             try {
                 // Get a request from the cache triage queue, blocking until
-                // at least one is available.
+                // at least one is available.在while循环中 不断地获取Cache.Entry 实例 ，如果没有实例  会阻塞线程进行等待
                 final Request<?> request = mCacheQueue.take();
                 request.addMarker("cache-queue-take");
 
@@ -96,20 +97,20 @@ public class CacheDispatcher extends Thread {
                     continue;
                 }
 
-                // Attempt to retrieve this item from cache.
-                Cache.Entry entry = mCache.get(request.getCacheKey());
+                // Attempt to retrieve this item from cache.  获取缓存实例 通过 key
+                Cache.Entry entry = mCache.get(request.getCacheKey()); 
                 if (entry == null) {
                     request.addMarker("cache-miss");
-                    // Cache miss; send off to the network dispatcher.
+                    // Cache miss; send off to the network dispatcher. 如果缓存不存在 把 request放到 Networkqueue 
                     mNetworkQueue.put(request);
                     continue;
                 }
 
-                // If it is completely expired, just send it to the network.
+                // If it is completely expired, just send it to the network.  如果 entry过期的话 ，重新进行请求 
                 if (entry.isExpired()) {
                     request.addMarker("cache-hit-expired");
                     request.setCacheEntry(entry);
-                    mNetworkQueue.put(request);
+                    mNetworkQueue.put(request);  
                     continue;
                 }
 
