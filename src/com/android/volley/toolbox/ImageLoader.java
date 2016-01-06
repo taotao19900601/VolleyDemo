@@ -40,14 +40,14 @@ import java.util.LinkedList;
  * thread as well.
  */
 public class ImageLoader {
-    /** RequestQueue for dispatching ImageRequests onto. */
+    /** RequestQueue for dispatching ImageRequests onto.  建立请求对列*/
     private final RequestQueue mRequestQueue;
 
     /** Amount of time to wait after first response arrives before delivering all responses. */
-    private int mBatchResponseDelayMs = 100;
+    private int mBatchResponseDelayMs = 100;  
 
-    /** The cache implementation to be used as an L1 cache before calling into volley. */
-    private final ImageCache mCache;
+    /** The cache implementation to be used as an L1 cache before calling into volley.  该缓存被作为L1 缓存*/
+    private final ImageCache mCache; 
 
     /**
      * HashMap of Cache keys -> BatchedImageRequest used to track in-flight requests so
@@ -209,13 +209,13 @@ public class ImageLoader {
 
         // only fulfill requests that were initiated from the main thread.
         throwIfNotOnMainThread();
-
+   
         final String cacheKey = getCacheKey(requestUrl, maxWidth, maxHeight, scaleType);
 
-        // Try to look up the request in the cache of remote images.
+        // Try to look up the request in the cache of remote images. 获得bitmap缓存
         Bitmap cachedBitmap = mCache.getBitmap(cacheKey);
-        if (cachedBitmap != null) {
-            // Return the cached bitmap.
+        if (cachedBitmap != null) { 
+            // Return the cached bitmap. 如果缓存不为null 的情况下  ，通过接口回调的方式 把 container 传递过去
             ImageContainer container = new ImageContainer(cachedBitmap, requestUrl, null, null);
             imageListener.onResponse(container, true);
             return container;
@@ -237,16 +237,16 @@ public class ImageLoader {
         }
 
         // The request is not already in flight. Send the new request to the network and
-        // track it.
+        // track it. 通过ImageRequest来获取图片
         Request<Bitmap> newRequest = makeImageRequest(requestUrl, maxWidth, maxHeight, scaleType,
                 cacheKey);
-
+        // 把 ImageRequest添加到RequestQueue中
         mRequestQueue.add(newRequest);
         mInFlightRequests.put(cacheKey,
                 new BatchedImageRequest(newRequest, imageContainer));
         return imageContainer;
     }
-
+// 
     protected Request<Bitmap> makeImageRequest(String requestUrl, int maxWidth, int maxHeight,
             ScaleType scaleType, final String cacheKey) {
         return new ImageRequest(requestUrl, new Listener<Bitmap>() {
@@ -498,6 +498,7 @@ public class ImageLoader {
      * @param maxWidth The max-width of the output.
      * @param maxHeight The max-height of the output.
      * @param scaleType The scaleType of the imageView.
+     * 创建缓存key
      */
     private static String getCacheKey(String url, int maxWidth, int maxHeight, ScaleType scaleType) {
         return new StringBuilder(url.length() + 12).append("#W").append(maxWidth)
