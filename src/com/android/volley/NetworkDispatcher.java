@@ -81,8 +81,10 @@ public class NetworkDispatcher extends Thread {
 
     @Override
     public void run() {
+    	//设置优先级
         Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
         while (true) {
+        	//从开机到现在的毫秒数（包括手机休眠）
             long startTimeMs = SystemClock.elapsedRealtime();
             Request<?> request;
             try {

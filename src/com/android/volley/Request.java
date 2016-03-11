@@ -86,7 +86,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     /** The request queue this request is associated with. 请求队列 */
     private RequestQueue mRequestQueue;
 
-    /** Whether or not responses to this request should be cached.  是否缓存   默认是缓存上的。*/
+    /** Whether or not responses to this request should be cached.  是否可以缓存   默认是可以缓存。*/
     private boolean mShouldCache = true;
 
     /** Whether or not this request has been canceled. */

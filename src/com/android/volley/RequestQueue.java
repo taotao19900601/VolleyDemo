@@ -142,7 +142,7 @@ public class RequestQueue {
      */
     public void start() {
         stop();  // Make sure any currently running dispatchers are stopped. 
-        // Create the cache dispatcher and start it. 创建网络分发器 并并开启它
+        // Create the cache dispatcher and start it. 创建网络分发器 并开启它
         mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
         mCacheDispatcher.start();
 
@@ -224,6 +224,7 @@ public class RequestQueue {
 
     /**
      * Adds a Request to the dispatch queue.
+     * 添加请求到分发队列
      * @param request The request to service
      * @return The passed-in request
      */
@@ -239,6 +240,7 @@ public class RequestQueue {
         request.addMarker("add-to-queue");
 
         // If the request is uncacheable, skip the cache queue and go straight to the network.
+        // 判断是请求是否有缓存     如果没有把该请求添加到网络队列中
         if (!request.shouldCache()) {
             mNetworkQueue.add(request);
             return request;

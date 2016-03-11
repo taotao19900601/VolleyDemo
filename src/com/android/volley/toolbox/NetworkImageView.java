@@ -146,7 +146,7 @@ public class NetworkImageView extends ImageView {
         int maxHeight = wrapHeight ? 0 : height;
 
         // The pre-existing content of this view didn't match the current URL. Load the new image
-        // from the network.
+        // from the network.看来 NetWorkImageView 内部也是请求图片 也是 ImageLoader
         ImageContainer newContainer = mImageLoader.get(mUrl,
                 new ImageListener() {
                     @Override
