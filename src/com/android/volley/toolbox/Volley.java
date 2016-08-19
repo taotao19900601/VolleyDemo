@@ -40,7 +40,7 @@ public class Volley {
      * @param stack An {@link HttpStack} to use for the network, or null for default.
      * @return A started {@link RequestQueue} instance.
      */
-    public static RequestQueue newRequestQueue(Context context, HttpStack stack) {
+    public static RequestQueue newRequestQueue(Context context, HttpStack stack)  {
     	//创建缓存目录的文件对象
         File cacheDir = new File(context.getCacheDir(), DEFAULT_CACHE_DIR);
 
@@ -66,10 +66,10 @@ public class Volley {
             }
         }
         
-        Network network = new BasicNetwork(stack);
+        Network network = new BasicNetwork(stack); // 创建网络对象
 
-        RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network);
-        queue.start();
+        RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network); // 创建请求队列
+        queue.start(); // 
 
         return queue;
     }

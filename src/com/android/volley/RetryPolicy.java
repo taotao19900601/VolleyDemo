@@ -39,6 +39,8 @@ public interface RetryPolicy {
      * @param error The error code of the last attempt.
      * @throws VolleyError In the event that the retry could not be performed (for example if we
      * ran out of attempts), the passed in error is thrown.
+     * 确定是否重试
+     * 
      */
     public void retry(VolleyError error) throws VolleyError;
 }

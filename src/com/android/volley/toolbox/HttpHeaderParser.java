@@ -27,6 +27,7 @@ import java.util.Map;
 
 /**
  * Utility methods for parsing HTTP headers.
+ * 解析HTTP
  */
 public class HttpHeaderParser {
 
@@ -41,12 +42,12 @@ public class HttpHeaderParser {
 
         Map<String, String> headers = response.headers;
 
-        long serverDate = 0;
-        long lastModified = 0;
-        long serverExpires = 0;
-        long softExpire = 0;
+        long serverDate = 0;    // 从服务器发出消息的时间
+        long lastModified = 0; //请求资源的最后修改时间
+        long serverExpires = 0; // 服务器响应过期时间
+        long softExpire = 0; // 
         long finalExpire = 0;
-        long maxAge = 0;
+        long maxAge = 0; //从原始服务器到代理缓存形成的估算时间（以秒计，非负）
         long staleWhileRevalidate = 0;
         boolean hasCacheControl = false;
         boolean mustRevalidate = false;
@@ -122,6 +123,7 @@ public class HttpHeaderParser {
 
     /**
      * Parse date in RFC1123 format, and return its value as epoch
+     * 把时间解析成RFC1123 的格式
      */
     public static long parseDateAsEpoch(String dateStr) {
         try {
@@ -142,7 +144,7 @@ public class HttpHeaderParser {
      * or the defaultCharset if none can be found.
      */
     public static String parseCharset(Map<String, String> headers, String defaultCharset) {
-        String contentType = headers.get(HTTP.CONTENT_TYPE);
+        String contentType = headers.get(HTTP.CONTENT_TYPE); // 返回数据的编码集信息
         if (contentType != null) {
             String[] params = contentType.split(";");
             for (int i = 1; i < params.length; i++) {

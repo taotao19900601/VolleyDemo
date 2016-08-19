@@ -54,11 +54,13 @@ public class ExecutorDelivery implements ResponseDelivery {
     public void postResponse(Request<?> request, Response<?> response) {
         postResponse(request, response, null);
     }
-
+    
+    
     @Override
     public void postResponse(Request<?> request, Response<?> response, Runnable runnable) {
         request.markDelivered();
         request.addMarker("post-response");
+        // 负责把在子线程的数据更新到主线程中 通过responseDeliveryRunnable
         mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, runnable));
     }
 

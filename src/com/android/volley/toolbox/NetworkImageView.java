@@ -16,6 +16,7 @@
 package com.android.volley.toolbox;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewGroup.LayoutParams;
@@ -146,7 +147,7 @@ public class NetworkImageView extends ImageView {
         int maxHeight = wrapHeight ? 0 : height;
 
         // The pre-existing content of this view didn't match the current URL. Load the new image
-        // from the network.看来 NetWorkImageView 内部也是请求图片 也是 ImageLoader
+        // from the network.看来 NetWorkImageView 内部也是请求图片 也是 ImageLoader imageloader的内部为imagerequest
         ImageContainer newContainer = mImageLoader.get(mUrl,
                 new ImageListener() {
                     @Override

@@ -28,7 +28,7 @@ import java.util.concurrent.BlockingQueue;
  * {@link ResponseDelivery}.  Cache misses and responses that require
  * refresh are enqueued on the specified network queue for processing
  * by a {@link NetworkDispatcher}.
- * 缓存线程调度类
+ * 缓存线程调度类  继承了Thread
  */
 public class CacheDispatcher extends Thread {
 
@@ -73,7 +73,7 @@ public class CacheDispatcher extends Thread {
      */
     public void quit() {
         mQuit = true;
-        interrupt();
+        interrupt(); // 中断
     }
 
     @Override
@@ -83,7 +83,7 @@ public class CacheDispatcher extends Thread {
 
         // Make a blocking call to initialize the cache.
         mCache.initialize();
-        
+        //无限循环 
         while (true) {
             try {
                 // Get a request from the cache triage queue, blocking until
@@ -100,7 +100,7 @@ public class CacheDispatcher extends Thread {
                 // Attempt to retrieve this item from cache.  获取缓存实例 通过 key
                 Cache.Entry entry = mCache.get(request.getCacheKey()); 
                 if (entry == null) {
-                    request.addMarker("cache-miss");
+                    request.addMarker("cache-miss"); // 
                     // Cache miss; send off to the network dispatcher. 如果缓存不存在 把 request放到 Networkqueue 
                     mNetworkQueue.put(request);
                     continue;
@@ -116,7 +116,7 @@ public class CacheDispatcher extends Thread {
 
                 // We have a cache hit; parse its data for delivery back to the request.
                 request.addMarker("cache-hit");
-                // 解析 网络请求相应      
+                // 解析 网络请求响应
                 Response<?> response = request.parseNetworkResponse(
                         new NetworkResponse(entry.data, entry.responseHeaders));
                 request.addMarker("cache-hit-parsed");

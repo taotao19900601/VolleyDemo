@@ -246,7 +246,7 @@ public class ImageLoader {
                 new BatchedImageRequest(newRequest, imageContainer));
         return imageContainer;
     }
-// 
+// imageloader 里面 其实调用的也是 imagerequest()
     protected Request<Bitmap> makeImageRequest(String requestUrl, int maxWidth, int maxHeight,
             ScaleType scaleType, final String cacheKey) {
         return new ImageRequest(requestUrl, new Listener<Bitmap>() {

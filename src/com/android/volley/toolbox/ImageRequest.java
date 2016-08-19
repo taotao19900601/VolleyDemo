@@ -97,8 +97,8 @@ public class ImageRequest extends Request<Bitmap> {
     }
 
     /**
-     * Scales one side of a rectangle to fit aspect ratio.
-     *
+     * Scales one side of a rectangle to fit aspect ratio. 重新调整尺寸
+     *   
      * @param maxPrimary Maximum size of the primary dimension (i.e. width for
      *        max width), or zero to maintain aspect ratio with secondary
      *        dimension
@@ -150,7 +150,7 @@ public class ImageRequest extends Request<Bitmap> {
         }
         return resized;
     }
-
+    // 解析网络响应数据
     @Override
     protected Response<Bitmap> parseNetworkResponse(NetworkResponse response) {
         // Serialize all decode on a global lock to reduce concurrent heap usage.
@@ -173,9 +173,10 @@ public class ImageRequest extends Request<Bitmap> {
         Bitmap bitmap = null;
         if (mMaxWidth == 0 && mMaxHeight == 0) {
             decodeOptions.inPreferredConfig = mDecodeConfig;
-            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, decodeOptions);
+            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, decodeOptions); // 将bit数组 转化成bitmap
         } else {
             // If we have to resize this image, first get the natural bounds.
+        	// 只是获取图片的width height  不加载图片到内存
             decodeOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(data, 0, data.length, decodeOptions);
             int actualWidth = decodeOptions.outWidth;

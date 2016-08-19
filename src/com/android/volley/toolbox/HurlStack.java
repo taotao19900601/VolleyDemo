@@ -84,7 +84,7 @@ public class HurlStack implements HttpStack {
         mUrlRewriter = urlRewriter;
         mSslSocketFactory = sslSocketFactory;
     }
-
+    // 该方法重写 父类接口的performRequest() 在方法中http的请求  HttpURLConnection
     @Override
     public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
             throws IOException, AuthFailureError {
@@ -100,6 +100,7 @@ public class HurlStack implements HttpStack {
             url = rewritten;
         }
         URL parsedUrl = new URL(url);
+        // 调用openConnection（） 方法  
         HttpURLConnection connection = openConnection(parsedUrl, request);
         for (String headerName : map.keySet()) {
             connection.addRequestProperty(headerName, map.get(headerName));

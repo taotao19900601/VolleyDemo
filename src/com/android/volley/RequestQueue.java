@@ -111,7 +111,7 @@ public class RequestQueue {
             ResponseDelivery delivery) {
         mCache = cache;
         mNetwork = network;
-        mDispatchers = new NetworkDispatcher[threadPoolSize];
+        mDispatchers = new NetworkDispatcher[threadPoolSize]; //网络调度
         mDelivery = delivery;
     }
 
@@ -142,12 +142,14 @@ public class RequestQueue {
      */
     public void start() {
         stop();  // Make sure any currently running dispatchers are stopped. 
-        // Create the cache dispatcher and start it. 创建网络分发器 并开启它
+        // Create the cache dispatcher and start it. 创建缓存分发器 并开启它 cacheDispather 开启缓存线程
         mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
         mCacheDispatcher.start();
 
         // Create network dispatchers (and corresponding threads) up to the pool size.
+        //此时共用5条线程运行   ， 其中4条为网络调度线程       1条为缓存调度线程
         for (int i = 0; i < mDispatchers.length; i++) {
+        	
             NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork,
                     mCache, mDelivery); 
             mDispatchers[i] = networkDispatcher;
@@ -240,13 +242,14 @@ public class RequestQueue {
         request.addMarker("add-to-queue");
 
         // If the request is uncacheable, skip the cache queue and go straight to the network.
-        // 判断是请求是否有缓存     如果没有把该请求添加到网络队列中
+        // 判断是请求是否可以缓存     如果没有把该请求添加到网络队列中
         if (!request.shouldCache()) {
             mNetworkQueue.add(request);
             return request;
         }
 
         // Insert request into stage if there's already a request with the same cache key in flight.
+        // 添加的请求到
         synchronized (mWaitingRequests) {
             String cacheKey = request.getCacheKey();
             if (mWaitingRequests.containsKey(cacheKey)) {

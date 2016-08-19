@@ -40,6 +40,8 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     /**
      * Default encoding for POST or PUT parameters. See {@link #getParamsEncoding()}.
+     * 
+     * 
      */
     private static final String DEFAULT_PARAMS_ENCODING = "UTF-8";
 
